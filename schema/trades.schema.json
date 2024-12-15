@@ -38,6 +38,7 @@
                 "type": "object",
                 "properties": {
                     "weight": {"type": "integer"},
+                    "allow_duplicates": {"type": "boolean"},
                     "max_uses": {"$ref": "#/definitions/rangeOrInteger"},
                     "result": {"$ref": "#/definitions/item"},
                     "ingredients": {

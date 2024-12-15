@@ -12,14 +12,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeItem {
+public class TradeItem {
 
     private final Material material;
     private final VariableInteger amount;
     private final Component name;
     private final List<Component> lore = new ArrayList<>();
 
-    public RecipeItem(JsonObject jsonObject) {
+    public TradeItem(JsonObject jsonObject) {
         material = Material.valueOf(jsonObject.get("material").getAsString());
 
         VariableInteger amount;

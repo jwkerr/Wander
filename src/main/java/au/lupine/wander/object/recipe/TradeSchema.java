@@ -15,7 +15,7 @@ public class TradeSchema {
 
     private final Integer nullWeight;
     private final VariableInteger numIterations;
-    private final List<WanderRecipe> recipes = new ArrayList<>();
+    private final List<Trade> recipes = new ArrayList<>();
 
     private int totalWeight = 0;
 
@@ -38,9 +38,9 @@ public class TradeSchema {
         this.numIterations = numIterations;
 
         for (JsonElement element : jsonObject.get("recipes").getAsJsonArray()) {
-            WanderRecipe recipe;
+            Trade recipe;
             try {
-                recipe = new WanderRecipe(element.getAsJsonObject());
+                recipe = new Trade(element.getAsJsonObject());
             } catch (Exception e) {
                 Wander.logWarning("An error occurred while creating a recipe");
                 for (StackTraceElement trace : e.getStackTrace()) {
@@ -56,14 +56,14 @@ public class TradeSchema {
     }
 
     public List<MerchantRecipe> generate() {
-        List<WanderRecipe> alreadyAdded = new ArrayList<>();
+        List<Trade> alreadyAdded = new ArrayList<>();
 
         List<MerchantRecipe> recipes = new ArrayList<>();
         for (int i = 0; i <= Math.min(numIterations.generate(), this.recipes.size()); i++) {
-            WanderRecipe recipe = getRandomRecipe();
+            Trade recipe = getRandomRecipe();
             if (recipe == null) continue;
 
-            if (!alreadyAdded.contains(recipe)) {
+            if (recipe.doesAllowDuplicates() || !alreadyAdded.contains(recipe)) {
                 recipes.add(recipe.generate());
                 alreadyAdded.add(recipe);
             }
@@ -72,7 +72,7 @@ public class TradeSchema {
         return recipes;
     }
 
-    private @Nullable WanderRecipe getRandomRecipe() {
+    private @Nullable Trade getRandomRecipe() {
         int randomWeight = new Random().nextInt(0, this.totalWeight + 1);
 
         int totalWeight = 0;
@@ -82,7 +82,7 @@ public class TradeSchema {
             if (randomWeight <= nullWeight) return null;
         }
 
-        for (WanderRecipe recipe : recipes) {
+        for (Trade recipe : recipes) {
             int recipeWeight = recipe.getWeight();
 
             if (randomWeight > totalWeight && randomWeight <= totalWeight + recipeWeight)
