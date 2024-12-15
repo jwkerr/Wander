@@ -19,6 +19,7 @@
     },
     {
       "weight": 100,
+      "allow_duplicates": true,
       "result": {
         "material": "STONE",
         "amount": {"min": 32, "max": 64}
