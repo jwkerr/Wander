@@ -1,0 +1,54 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "definitions": {
+        "rangeOrInteger": {
+            "oneOf": [
+                {"type": "integer"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "min": {"type": "integer"},
+                        "max": {"type": "integer"}
+                    },
+                    "required": ["min"]
+                }
+            ]
+        },
+        "item": {
+            "type": "object",
+            "properties": {
+                "material": {"type": "string"},
+                "amount": {"$ref": "#/definitions/rangeOrInteger"},
+                "name": {"type": "string"},
+                "lore": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                }
+            },
+            "required": ["material"]
+        }
+    },
+    "properties": {
+        "null_weight": {"type": "integer"},
+        "num_iterations": {"$ref": "#/definitions/rangeOrInteger"},
+        "recipes": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "weight": {"type": "integer"},
+                    "max_uses": {"$ref": "#/definitions/rangeOrInteger"},
+                    "result": {"$ref": "#/definitions/item"},
+                    "ingredients": {
+                        "type": "array",
+                        "maxItems": 2,
+                        "items": {"$ref": "#/definitions/item"}
+                    }
+                },
+                "required": ["weight", "result", "ingredients"]
+            }
+        }
+    },
+    "required": ["recipes"]
+}
