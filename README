@@ -1,0 +1,4 @@
+A simple plugin to define custom wandering trader trades.
+
+Trades have their own rarities defined as "weights", you can also define variable amounts of each item, both for the result and ingredients.
+Please refer to the wiki for more info.
