@@ -19,7 +19,7 @@ public class CommandManager {
         CommandAPICommand reload = new CommandAPICommand("reload")
                 .withPermission("wander.command.wander.reload")
                 .executes((sender, args) -> {
-                    RecipeManager.getInstance().reload();
+                    TradeManager.getInstance().reload();
                     sender.sendMessage(Component.text("Successfully reloaded Wander", NamedTextColor.GREEN));
                 });
 

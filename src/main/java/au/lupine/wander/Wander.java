@@ -4,7 +4,7 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import au.lupine.wander.listener.WanderingTraderListener;
 import au.lupine.wander.manager.CommandManager;
-import au.lupine.wander.manager.RecipeManager;
+import au.lupine.wander.manager.TradeManager;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,7 +17,7 @@ public final class Wander extends JavaPlugin {
         CommandAPI.onEnable();
 
         CommandManager.getInstance().initialise();
-        RecipeManager.getInstance().initialise();
+        TradeManager.getInstance().initialise();
 
         registerListeners(
                 new WanderingTraderListener()

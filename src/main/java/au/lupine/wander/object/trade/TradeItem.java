@@ -1,4 +1,4 @@
-package au.lupine.wander.object.recipe;
+package au.lupine.wander.object.trade;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

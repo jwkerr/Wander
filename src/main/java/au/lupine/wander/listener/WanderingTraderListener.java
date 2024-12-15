@@ -1,7 +1,7 @@
 package au.lupine.wander.listener;
 
-import au.lupine.wander.manager.RecipeManager;
-import au.lupine.wander.object.recipe.TradeSchema;
+import au.lupine.wander.manager.TradeManager;
+import au.lupine.wander.object.trade.TradeSchema;
 import org.bukkit.entity.WanderingTrader;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +17,7 @@ public class WanderingTraderListener implements Listener {
     public void onWanderingTraderSpawn(EntitySpawnEvent event) {
         if (!(event.getEntity() instanceof WanderingTrader trader)) return;
 
-        TradeSchema schema = RecipeManager.getInstance().getSchema();
+        TradeSchema schema = TradeManager.getInstance().getSchema();
 
         List<MerchantRecipe> recipes = new ArrayList<>(schema.generate());
         recipes.addAll(trader.getRecipes());

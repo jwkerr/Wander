@@ -4,7 +4,7 @@
     "min": 1,
     "max": 2
   },
-  "recipes": [
+  "trades": [
     {
       "weight": 100,
       "result": {

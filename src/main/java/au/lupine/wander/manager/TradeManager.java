@@ -2,21 +2,21 @@ package au.lupine.wander.manager;
 
 import com.google.gson.JsonObject;
 import au.lupine.wander.Wander;
-import au.lupine.wander.object.recipe.TradeSchema;
+import au.lupine.wander.object.trade.TradeSchema;
 import au.lupine.wander.util.FileUtil;
 
 import java.io.InputStream;
 
-public class RecipeManager {
+public class TradeManager {
 
-    private static RecipeManager instance;
+    private static TradeManager instance;
 
     private TradeSchema schema;
 
-    private RecipeManager() {}
+    private TradeManager() {}
 
-    public static RecipeManager getInstance() {
-        if (instance == null) instance = new RecipeManager();
+    public static TradeManager getInstance() {
+        if (instance == null) instance = new TradeManager();
         return instance;
     }
 

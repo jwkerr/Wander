@@ -1,4 +1,4 @@
-package au.lupine.wander.object.recipe;
+package au.lupine.wander.object.trade;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,7 +15,7 @@ public class TradeSchema {
 
     private final Integer nullWeight;
     private final VariableInteger numIterations;
-    private final List<Trade> recipes = new ArrayList<>();
+    private final List<Trade> trades = new ArrayList<>();
 
     private int totalWeight = 0;
 
@@ -37,12 +37,12 @@ public class TradeSchema {
         }
         this.numIterations = numIterations;
 
-        for (JsonElement element : jsonObject.get("recipes").getAsJsonArray()) {
-            Trade recipe;
+        for (JsonElement element : jsonObject.get("trades").getAsJsonArray()) {
+            Trade trade;
             try {
-                recipe = new Trade(element.getAsJsonObject());
+                trade = new Trade(element.getAsJsonObject());
             } catch (Exception e) {
-                Wander.logWarning("An error occurred while creating a recipe");
+                Wander.logWarning("An error occurred while creating a trade");
                 for (StackTraceElement trace : e.getStackTrace()) {
                     Wander.logWarning(trace.toString());
                 }
@@ -50,8 +50,8 @@ public class TradeSchema {
                 continue;
             }
 
-            totalWeight += recipe.getWeight();
-            recipes.add(recipe);
+            totalWeight += trade.getWeight();
+            trades.add(trade);
         }
     }
 
@@ -59,20 +59,21 @@ public class TradeSchema {
         List<Trade> alreadyAdded = new ArrayList<>();
 
         List<MerchantRecipe> recipes = new ArrayList<>();
-        for (int i = 0; i <= Math.min(numIterations.generate(), this.recipes.size()); i++) {
-            Trade recipe = getRandomRecipe();
-            if (recipe == null) continue;
+        for (int i = 0; i < Math.min(numIterations.generate(), this.trades.size()); i++) {
+            Wander.logInfo(String.valueOf(i));
+            Trade trade = getRandomTrade();
+            if (trade == null) continue;
 
-            if (recipe.doesAllowDuplicates() || !alreadyAdded.contains(recipe)) {
-                recipes.add(recipe.generate());
-                alreadyAdded.add(recipe);
+            if (trade.doesAllowDuplicates() || !alreadyAdded.contains(trade)) {
+                recipes.add(trade.generate());
+                alreadyAdded.add(trade);
             }
         }
 
         return recipes;
     }
 
-    private @Nullable Trade getRandomRecipe() {
+    private @Nullable Trade getRandomTrade() {
         int randomWeight = new Random().nextInt(0, this.totalWeight + 1);
 
         int totalWeight = 0;
@@ -82,17 +83,17 @@ public class TradeSchema {
             if (randomWeight <= nullWeight) return null;
         }
 
-        for (Trade recipe : recipes) {
-            int recipeWeight = recipe.getWeight();
+        for (Trade trade : trades) {
+            int tradeWeight = trade.getWeight();
 
-            if (randomWeight > totalWeight && randomWeight <= totalWeight + recipeWeight)
-                return recipe;
+            if (randomWeight > totalWeight && randomWeight <= totalWeight + tradeWeight)
+                return trade;
 
-            totalWeight += recipeWeight;
+            totalWeight += tradeWeight;
         }
 
         try {
-            return recipes.getLast(); // Hopefully this can't be reached, but just a catch for any possible weight issues
+            return trades.getLast(); // Hopefully this can't be reached, but just a catch for any possible weight issues
         } catch (Exception e) {
             return null;
         }
