@@ -60,7 +60,6 @@ public class TradeSchema {
 
         List<MerchantRecipe> recipes = new ArrayList<>();
         for (int i = 0; i < Math.min(numIterations.generate(), this.trades.size()); i++) {
-            Wander.logInfo(String.valueOf(i));
             Trade trade = getRandomTrade();
             if (trade == null) continue;
 
