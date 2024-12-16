@@ -6,3 +6,8 @@ authors: [Fruitloopins]
 description: A simple plugin to define custom wandering trader trades
 website: https://lupine.au
 folia-supported: true
+
+permissions:
+  wander.command.wander.reload:
+    default: false
+    description: Allows the user to reload the Wander config
