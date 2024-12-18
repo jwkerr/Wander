@@ -21,6 +21,7 @@ public class TradeItem {
 
     public TradeItem(JsonObject jsonObject) {
         material = Material.valueOf(jsonObject.get("material").getAsString());
+        if (!material.isItem()) throw new RuntimeException("Specified material " + material.name() + " is not an item");
 
         VariableInteger amount;
         try {
