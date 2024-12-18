@@ -1,7 +1,8 @@
 {
+    "title": "Trades Schema",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
-    "definitions": {
+    "$defs": {
         "rangeOrInteger": {
             "oneOf": [
                 {"type": "integer"},
@@ -19,7 +20,7 @@
             "type": "object",
             "properties": {
                 "material": {"type": "string"},
-                "amount": {"$ref": "#/definitions/rangeOrInteger"},
+                "amount": {"$ref": "#/$defs/rangeOrInteger"},
                 "name": {"type": "string"},
                 "lore": {
                     "type": "array",
@@ -31,7 +32,7 @@
     },
     "properties": {
         "null_weight": {"type": "integer"},
-        "num_iterations": {"$ref": "#/definitions/rangeOrInteger"},
+        "num_iterations": {"$ref": "#/$defs/rangeOrInteger"},
         "trades": {
             "type": "array",
             "items": {
@@ -39,12 +40,12 @@
                 "properties": {
                     "weight": {"type": "integer"},
                     "allow_duplicates": {"type": "boolean"},
-                    "max_uses": {"$ref": "#/definitions/rangeOrInteger"},
-                    "result": {"$ref": "#/definitions/item"},
+                    "max_uses": {"$ref": "#/$defs/rangeOrInteger"},
+                    "result": {"$ref": "#/$defs/item"},
                     "ingredients": {
                         "type": "array",
                         "maxItems": 2,
-                        "items": {"$ref": "#/definitions/item"}
+                        "items": {"$ref": "#/$defs/item"}
                     }
                 },
                 "required": ["weight", "result", "ingredients"]
