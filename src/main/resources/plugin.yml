@@ -9,5 +9,5 @@ folia-supported: true
 
 permissions:
   wander.command.wander.reload:
-    default: false
+    default: op
     description: Allows the user to reload the Wander config
