@@ -36,7 +36,8 @@
                         },
                         "required": ["enchantment", "level"]
                     }
-                }
+                },
+                "unbreakable": {"type": "boolean"}
             },
             "required": ["material"]
         }

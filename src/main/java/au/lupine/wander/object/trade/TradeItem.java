@@ -24,6 +24,7 @@ public class TradeItem {
     private final Component name;
     private final List<Component> lore = new ArrayList<>();
     private final Map<Enchantment, VariableInteger> enchantments = new HashMap<>();
+    private final boolean unbreakable;
 
     public TradeItem(JsonObject jsonObject) {
         material = Material.valueOf(jsonObject.get("material").getAsString());
@@ -60,6 +61,12 @@ public class TradeItem {
                 enchantments.put(enchantment, level);
             }
         }
+
+        if (jsonObject.has("unbreakable")) {
+            unbreakable = jsonObject.get("unbreakable").getAsBoolean();
+        } else {
+            unbreakable = false;
+        }
     }
 
     public ItemStack generate() {
@@ -72,6 +79,8 @@ public class TradeItem {
         for (Map.Entry<Enchantment, VariableInteger> entry : enchantments.entrySet()) {
             meta.addEnchant(entry.getKey(), entry.getValue().generate(), true);
         }
+
+        meta.setUnbreakable(unbreakable);
 
         item.setItemMeta(meta);
 
