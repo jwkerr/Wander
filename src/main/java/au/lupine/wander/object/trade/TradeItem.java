@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -24,6 +25,7 @@ public class TradeItem {
     private final Component name;
     private final List<Component> lore = new ArrayList<>();
     private final Map<Enchantment, VariableInteger> enchantments = new HashMap<>();
+    private final List<ItemFlag> flags = new ArrayList<>();
     private final boolean unbreakable;
 
     public TradeItem(JsonObject jsonObject) {
@@ -62,6 +64,12 @@ public class TradeItem {
             }
         }
 
+        if (jsonObject.has("flags")) {
+            for (JsonElement element : jsonObject.get("flags").getAsJsonArray()) {
+                flags.add(ItemFlag.valueOf(element.getAsString()));
+            }
+        }
+
         if (jsonObject.has("unbreakable")) {
             unbreakable = jsonObject.get("unbreakable").getAsBoolean();
         } else {
@@ -78,6 +86,10 @@ public class TradeItem {
 
         for (Map.Entry<Enchantment, VariableInteger> entry : enchantments.entrySet()) {
             meta.addEnchant(entry.getKey(), entry.getValue().generate(), true);
+        }
+
+        for (ItemFlag flag : flags) {
+            meta.addItemFlags(flag);
         }
 
         meta.setUnbreakable(unbreakable);

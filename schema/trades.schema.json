@@ -3,14 +3,14 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "$defs": {
-        "variableInteger": {
+        "variable_integer": {
             "oneOf": [
                 {"type": "integer"},
                 {
                     "type": "object",
                     "properties": {
-                        "min": {"type": "integer"},
-                        "max": {"type": "integer"}
+                        "min": { "type": "integer" },
+                        "max": { "type": "integer" }
                     },
                     "required": ["min"]
                 }
@@ -19,45 +19,49 @@
         "item": {
             "type": "object",
             "properties": {
-                "material": {"type": "string"},
-                "amount": {"$ref": "#/$defs/variableInteger"},
-                "name": {"type": "string"},
+                "material": { "type": "string" },
+                "amount": { "$ref": "#/$defs/variable_integer" },
+                "name": { "type": "string" },
                 "lore": {
                     "type": "array",
-                    "items": {"type": "string"}
+                    "items": { "type": "string" }
                 },
                 "enchantments": {
                     "type": "array",
                     "items": {
                         "type": "object",
                         "properties": {
-                            "enchantment": {"type": "string"},
-                            "level": {"$ref": "#/$defs/variableInteger"}
+                            "enchantment": { "type": "string" },
+                            "level": { "$ref": "#/$defs/variable_integer" }
                         },
                         "required": ["enchantment", "level"]
                     }
                 },
-                "unbreakable": {"type": "boolean"}
+                "flags": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
+                "unbreakable": { "type": "boolean" }
             },
             "required": ["material"]
         }
     },
     "properties": {
-        "null_weight": {"type": "integer"},
-        "num_iterations": {"$ref": "#/$defs/variableInteger"},
+        "null_weight": { "type": "integer" },
+        "num_iterations": { "$ref": "#/$defs/variable_integer" },
         "trades": {
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
-                    "weight": {"type": "integer"},
-                    "allow_duplicates": {"type": "boolean"},
-                    "max_uses": {"$ref": "#/$defs/variableInteger"},
-                    "result": {"$ref": "#/$defs/item"},
+                    "weight": { "type": "integer" },
+                    "allow_duplicates": { "type": "boolean" },
+                    "max_uses": { "$ref": "#/$defs/variable_integer" },
+                    "result": { "$ref": "#/$defs/item" },
                     "ingredients": {
                         "type": "array",
                         "maxItems": 2,
-                        "items": {"$ref": "#/$defs/item"}
+                        "items": { "$ref": "#/$defs/item" }
                     }
                 },
                 "required": ["weight", "result", "ingredients"]
