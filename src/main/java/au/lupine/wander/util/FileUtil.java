@@ -39,7 +39,7 @@ public class FileUtil {
                 Files.write(filePath, bytes, StandardOpenOption.CREATE_NEW);
             } catch (FileAlreadyExistsException ignored) {}
         } catch (IOException e) {
-            Wander.logSevere("Something went wrong while saving a file named " + fileName);
+            Wander.logSevere("Something went wrong while saving a file named " + fileName + ": " + e.getMessage());
             for (StackTraceElement element : e.getStackTrace()) {
                 Wander.logInfo(element.toString());
             }

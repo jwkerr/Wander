@@ -3,7 +3,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "$defs": {
-        "rangeOrInteger": {
+        "variableInteger": {
             "oneOf": [
                 {"type": "integer"},
                 {
@@ -20,11 +20,22 @@
             "type": "object",
             "properties": {
                 "material": {"type": "string"},
-                "amount": {"$ref": "#/$defs/rangeOrInteger"},
+                "amount": {"$ref": "#/$defs/variableInteger"},
                 "name": {"type": "string"},
                 "lore": {
                     "type": "array",
                     "items": {"type": "string"}
+                },
+                "enchantments": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "enchantment": {"type": "string"},
+                            "level": {"$ref": "#/$defs/variableInteger"}
+                        },
+                        "required": ["enchantment", "level"]
+                    }
                 }
             },
             "required": ["material"]
@@ -32,7 +43,7 @@
     },
     "properties": {
         "null_weight": {"type": "integer"},
-        "num_iterations": {"$ref": "#/$defs/rangeOrInteger"},
+        "num_iterations": {"$ref": "#/$defs/variableInteger"},
         "trades": {
             "type": "array",
             "items": {
@@ -40,7 +51,7 @@
                 "properties": {
                     "weight": {"type": "integer"},
                     "allow_duplicates": {"type": "boolean"},
-                    "max_uses": {"$ref": "#/$defs/rangeOrInteger"},
+                    "max_uses": {"$ref": "#/$defs/variableInteger"},
                     "result": {"$ref": "#/$defs/item"},
                     "ingredients": {
                         "type": "array",

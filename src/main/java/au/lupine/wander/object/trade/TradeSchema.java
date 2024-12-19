@@ -42,7 +42,7 @@ public class TradeSchema {
             try {
                 trade = new Trade(element.getAsJsonObject());
             } catch (Exception e) {
-                Wander.logWarning("An error occurred while creating a trade");
+                Wander.logWarning("An error occurred while creating a trade: " + e.getMessage());
                 for (StackTraceElement trace : e.getStackTrace()) {
                     Wander.logWarning(trace.toString());
                 }

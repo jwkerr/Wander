@@ -6,11 +6,16 @@ import au.lupine.wander.object.number.VariableInteger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TradeItem {
 
@@ -18,6 +23,7 @@ public class TradeItem {
     private final VariableInteger amount;
     private final Component name;
     private final List<Component> lore = new ArrayList<>();
+    private final Map<Enchantment, VariableInteger> enchantments = new HashMap<>();
 
     public TradeItem(JsonObject jsonObject) {
         material = Material.valueOf(jsonObject.get("material").getAsString());
@@ -43,6 +49,17 @@ public class TradeItem {
                 lore.add(mm.deserialize(element.getAsString()));
             }
         }
+
+        if (jsonObject.has("enchantments")) {
+            for (JsonElement element : jsonObject.get("enchantments").getAsJsonArray()) {
+                JsonObject enchantObject = element.getAsJsonObject();
+
+                Enchantment enchantment = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantObject.get("enchantment").getAsString()));
+                VariableInteger level = VariableInteger.fromJSONElement(enchantObject.get("level"));
+
+                enchantments.put(enchantment, level);
+            }
+        }
     }
 
     public ItemStack generate() {
@@ -51,6 +68,10 @@ public class TradeItem {
         ItemMeta meta = item.getItemMeta();
         if (name != null) meta.displayName(name);
         if (!lore.isEmpty()) meta.lore(lore);
+
+        for (Map.Entry<Enchantment, VariableInteger> entry : enchantments.entrySet()) {
+            meta.addEnchant(entry.getKey(), entry.getValue().generate(), true);
+        }
 
         item.setItemMeta(meta);
 
