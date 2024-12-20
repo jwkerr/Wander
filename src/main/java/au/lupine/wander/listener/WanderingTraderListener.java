@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.MerchantRecipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WanderingTraderListener implements Listener {
@@ -19,9 +18,9 @@ public class WanderingTraderListener implements Listener {
 
         TradeSchema schema = TradeManager.getInstance().getSchema();
 
-        List<MerchantRecipe> recipes = new ArrayList<>(schema.generate());
-        recipes.addAll(trader.getRecipes());
+        List<MerchantRecipe> trades = schema.generate();
+        trades.addAll(trader.getRecipes());
 
-        trader.setRecipes(recipes);
+        trader.setRecipes(trades);
     }
 }
