@@ -1,5 +1,6 @@
 package au.lupine.wander.command;
 
+import au.lupine.wander.Wander;
 import au.lupine.wander.manager.TradeManager;
 import com.google.gson.JsonParseException;
 import dev.jorel.commandapi.executors.CommandArguments;
@@ -16,7 +17,12 @@ public class ReloadCommand implements CommandExecutor {
             TradeManager.getInstance().reload();
             sender.sendMessage(Component.text("Successfully reloaded Wander", NamedTextColor.GREEN));
         } catch (JsonParseException e) {
-            sender.sendMessage(Component.text("Failed to reload Wander, there was an error parsing the JSON", NamedTextColor.RED));
+            sender.sendMessage(Component.text("Failed to reload Wander, there was an error parsing the JSON, check console for more information", NamedTextColor.RED));
+
+            Wander.logWarning("An error occurred while parsing trades.json: " + e.getMessage());
+            for (StackTraceElement trace : e.getStackTrace()) {
+                Wander.logWarning(trace.toString());
+            }
         }
     }
 }
