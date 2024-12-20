@@ -52,7 +52,10 @@ public class FileUtil {
         try {
             Files.createDirectories(path);
         } catch (IOException e) {
-            Wander.logSevere("Something went wrong while creating a directory\n" + e);
+            Wander.logWarning("An error occurred while creating a directory: " + e.getMessage());
+            for (StackTraceElement trace : e.getStackTrace()) {
+                Wander.logWarning(trace.toString());
+            }
         }
     }
 }

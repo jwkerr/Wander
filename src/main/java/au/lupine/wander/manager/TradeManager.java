@@ -37,7 +37,10 @@ public class TradeManager {
             byte[] bytes = is.readAllBytes();
             FileUtil.saveBytesToFile(bytes, FileUtil.CONFIG_DIRECTORY, "trades.json");
         } catch (Exception e) {
-            e.printStackTrace();
+            Wander.logWarning("An error occurred while saving the trades schema: " + e.getMessage());
+            for (StackTraceElement trace : e.getStackTrace()) {
+                Wander.logWarning(trace.toString());
+            }
         }
     }
 
