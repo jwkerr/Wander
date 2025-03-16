@@ -11,6 +11,7 @@ import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class TradeItem {
             for (JsonElement element : jsonObject.get("enchantments").getAsJsonArray()) {
                 JsonObject enchantObject = element.getAsJsonObject();
 
-                Enchantment enchantment = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantObject.get("enchantment").getAsString()));
+                Enchantment enchantment = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantObject.get("enchantment").getAsString().toLowerCase()));
                 VariableInteger level = VariableInteger.fromJSONElement(enchantObject.get("level"));
 
                 enchantments.put(enchantment, level);
@@ -85,6 +86,11 @@ public class TradeItem {
         if (!lore.isEmpty()) meta.lore(lore);
 
         for (Map.Entry<Enchantment, VariableInteger> entry : enchantments.entrySet()) {
+            if (meta instanceof EnchantmentStorageMeta) {
+                ((EnchantmentStorageMeta) meta).addStoredEnchant(entry.getKey(), entry.getValue().generate(), true);
+                continue;
+            }
+
             meta.addEnchant(entry.getKey(), entry.getValue().generate(), true);
         }
 
